@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:ecommerce/core/barrel_core.dart';
+import 'package:ecommerce/data/models/post_model.dart';
 import 'package:ecommerce/domain/barrel_domain.dart';
 
 class PostRemoteDataSourceImpl implements PostRemoteDataSource {
@@ -12,7 +13,7 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
     try {
       final response = await dio.get('${AppConstants.baseUrl}/posts');
       return (response.data as List)
-          .map((json) => Post.fromJson(json))
+          .map((json) => PostModel.fromJson(json))
           .toList();
     } on DioException catch (e) {
       throw ServerException(

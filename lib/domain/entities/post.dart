@@ -31,15 +31,6 @@ class Post extends Equatable {
     );
   }
 
-  factory Post.fromJson(Map<String, dynamic> json) {
-    return Post(
-      id: json['id'],
-      userId: json['userId'],
-      title: json['title'],
-      body: json['body'],
-    );
-  }
-
   @override
   List<Object?> get props => [id, userId, title, body, isLiked];
 }

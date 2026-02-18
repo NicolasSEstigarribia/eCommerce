@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:ecommerce/core/barrel_core.dart';
-import 'package:ecommerce/data/barrel_data.dart';
+import 'package:ecommerce/data/models/comment_model.dart';
 import 'package:ecommerce/domain/barrel_domain.dart';
 import 'package:flutter/services.dart';
 
@@ -11,7 +11,7 @@ class CommentNativeDataSourceImpl implements CommentNativeDataSource {
   );
 
   @override
-  Future<List<CommentModel>> getComments(int postId) async {
+  Future<List<Comment>> getComments(int postId) async {
     try {
       final String? result = await _channel.invokeMethod(
         AppConstants.getCommentsMethod,
