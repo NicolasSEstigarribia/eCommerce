@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/post.dart';
-import '../bloc/post/post_bloc.dart';
-import '../bloc/comment/comment_bloc.dart';
-import '../widgets/comment_item.dart';
-import '../widgets/error_view.dart';
+import '../../../domain/barrel_domain.dart';
+import '../../bloc/barrel_bloc.dart';
+import 'widgets/comment_item.dart';
+import '../../common_widgets/error_view.dart';
 
 class PostDetailPage extends StatefulWidget {
   final Post post;

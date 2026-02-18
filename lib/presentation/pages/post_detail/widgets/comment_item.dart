@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../domain/entities/comment.dart';
+import '../../../../domain/entities/comment.dart';
 
 class CommentItem extends StatelessWidget {
   final Comment comment;

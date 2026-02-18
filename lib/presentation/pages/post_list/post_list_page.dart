@@ -1,11 +1,9 @@
-import 'package:ecommerce/presentation/bloc/post/post_bloc.dart';
-import 'package:ecommerce/presentation/pages/post_detail_page.dart';
-import 'package:ecommerce/presentation/pages/post_list/widgets/post_list_item.dart';
-import 'package:ecommerce/presentation/widgets/error_view.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import '../../bloc/barrel_bloc.dart';
+import '../post_detail/post_detail_page.dart';
+import '../../common_widgets/error_view.dart';
+import 'widgets/post_list_item.dart';
 import 'dart:async';
 
 class PostListPage extends StatefulWidget {
@@ -16,7 +14,7 @@ class PostListPage extends StatefulWidget {
 }
 
 class _PostListPageState extends State<PostListPage> {
-  final TextEditingController _searchController = TextEditingController(  );
+  final TextEditingController _searchController = TextEditingController();
   Timer? _debounce;
 
   @override
