@@ -1,12 +1,9 @@
 import 'dart:convert';
-import 'package:flutter/services.dart';
-import '../../../core/constants/app_constants.dart';
-import '../../../core/error/exceptions.dart';
-import '../../models/comment_model.dart';
 
-abstract class CommentNativeDataSource {
-  Future<List<CommentModel>> getComments(int postId);
-}
+import 'package:ecommerce/core/barrel_core.dart';
+import 'package:ecommerce/data/barrel_data.dart';
+import 'package:ecommerce/domain/barrel_domain.dart';
+import 'package:flutter/services.dart';
 
 class CommentNativeDataSourceImpl implements CommentNativeDataSource {
   final MethodChannel _channel = const MethodChannel(

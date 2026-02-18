@@ -1,14 +1,9 @@
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
+import 'package:ecommerce/core/barrel_core.dart';
+import 'package:ecommerce/domain/barrel_domain.dart';
 import 'package:flutter/services.dart';
-import '../../core/error/exceptions.dart';
-import '../../core/error/failures.dart';
-import '../../domain/entities/comment.dart';
-import '../../domain/entities/post.dart';
-import '../../domain/repositories/post_repository.dart';
-import '../datasources/local/post_local_data_source.dart';
-import '../datasources/native/comment_native_data_source.dart';
-import '../datasources/remote/post_remote_data_source.dart';
 
 class PostRepositoryImpl implements PostRepository {
   final PostRemoteDataSource remoteDataSource;

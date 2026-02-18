@@ -1,11 +1,6 @@
 import 'package:dio/dio.dart';
-import '../../../core/constants/app_constants.dart';
-import '../../../core/error/exceptions.dart';
-import '../../models/post_model.dart';
-
-abstract class PostRemoteDataSource {
-  Future<List<PostModel>> getPosts();
-}
+import 'package:ecommerce/core/barrel_core.dart';
+import 'package:ecommerce/domain/barrel_domain.dart';
 
 class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   final Dio dio;
@@ -13,11 +8,11 @@ class PostRemoteDataSourceImpl implements PostRemoteDataSource {
   PostRemoteDataSourceImpl({required this.dio});
 
   @override
-  Future<List<PostModel>> getPosts() async {
+  Future<List<Post>> getPosts() async {
     try {
       final response = await dio.get('${AppConstants.baseUrl}/posts');
       return (response.data as List)
-          .map((json) => PostModel.fromJson(json))
+          .map((json) => Post.fromJson(json))
           .toList();
     } on DioException catch (e) {
       throw ServerException(

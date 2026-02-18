@@ -1,11 +1,7 @@
+import 'package:ecommerce/core/barrel_core.dart';
+import 'package:ecommerce/domain/barrel_domain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../../../core/constants/app_constants.dart';
-import '../../../core/error/exceptions.dart';
 
-abstract class PostLocalDataSource {
-  Future<List<int>> getLikedPostIds();
-  Future<void> toggleLike(int postId);
-}
 
 class PostLocalDataSourceImpl implements PostLocalDataSource {
   final SharedPreferences sharedPreferences;
