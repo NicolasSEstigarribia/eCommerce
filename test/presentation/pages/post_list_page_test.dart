@@ -1,8 +1,4 @@
 import 'dart:async';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_test/flutter_test.dart';
-import 'package:mocktail/mocktail.dart';
 import 'package:dartz/dartz.dart';
 import 'package:ecommerce/core/error/failures.dart';
 import 'package:ecommerce/domain/entities/post.dart';
@@ -10,6 +6,10 @@ import 'package:ecommerce/domain/repositories/post_repository.dart';
 import 'package:ecommerce/presentation/bloc/post/post_bloc.dart';
 import 'package:ecommerce/presentation/pages/post_list/post_list_page.dart';
 import 'package:ecommerce/presentation/pages/post_list/widgets/post_list_item.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_test/flutter_test.dart';
+import 'package:mocktail/mocktail.dart';
 
 class MockPostRepository extends Mock implements PostRepository {}
 
@@ -37,56 +37,49 @@ void main() {
 
   group('PostListPage', () {
     testWidgets('shows loading indicator while fetching posts', (tester) async {
-      // arrange — use a Completer that never resolves to stay in loading state
       when(
         () => mockRepository.getPosts(),
       ).thenAnswer((_) => Completer<Either<Failure, List<Post>>>().future);
-      // act
+
       await tester.pumpWidget(buildSubject());
-      await tester.pump(); // process the LoadPosts event
-      // assert — BLoC emits PostLoading, so spinner is visible
+      await tester.pump();
+
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
     testWidgets('shows list of posts when loaded successfully', (tester) async {
-      // arrange
       when(
         () => mockRepository.getPosts(),
       ).thenAnswer((_) async => const Right(tPosts));
-      // act
+
       await tester.pumpWidget(buildSubject());
-      await tester.pump(); // trigger BLoC state change
-      // assert
+      await tester.pump();
+
       expect(find.byType(PostListItem), findsNWidgets(2));
       expect(find.text('First Post'), findsOneWidget);
       expect(find.text('Second Post'), findsOneWidget);
     });
 
     testWidgets('shows error view when loading fails', (tester) async {
-      // arrange
-      when(() => mockRepository.getPosts()).thenAnswer(
-        (_) async => const Left(
-          // ignore: prefer_const_constructors
-          ServerFailure('Network error'),
-        ),
-      );
-      // act
+      when(
+        () => mockRepository.getPosts(),
+      ).thenAnswer((_) async => const Left(ServerFailure('Network error')));
+
       await tester.pumpWidget(buildSubject());
       await tester.pump();
-      // assert
+
       expect(find.text('Network error'), findsOneWidget);
       expect(find.byIcon(Icons.refresh), findsOneWidget);
     });
 
     testWidgets('shows search field in app bar', (tester) async {
-      // arrange
       when(
         () => mockRepository.getPosts(),
       ).thenAnswer((_) async => const Right(tPosts));
-      // act
+
       await tester.pumpWidget(buildSubject());
       await tester.pump();
-      // assert
+
       expect(find.byType(TextField), findsOneWidget);
       expect(find.text('Search posts...'), findsOneWidget);
     });
@@ -101,6 +94,7 @@ void main() {
         body: 'Body',
         isLiked: true,
       );
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -108,6 +102,7 @@ void main() {
           ),
         ),
       );
+
       expect(find.byIcon(Icons.favorite), findsOneWidget);
     });
 
@@ -121,6 +116,7 @@ void main() {
         body: 'Body',
         isLiked: false,
       );
+
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
@@ -128,6 +124,7 @@ void main() {
           ),
         ),
       );
+
       expect(find.byIcon(Icons.favorite_border), findsOneWidget);
     });
   });

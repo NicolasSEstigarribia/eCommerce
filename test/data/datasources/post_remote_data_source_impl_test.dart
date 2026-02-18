@@ -3,7 +3,6 @@ import 'package:ecommerce/core/constants/app_constants.dart';
 import 'package:ecommerce/core/error/exceptions.dart';
 import 'package:ecommerce/data/datasources/post_remote_data_source_impl.dart';
 import 'package:ecommerce/data/models/post_model.dart';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 
@@ -24,16 +23,13 @@ void main() {
     title: 'Test Title',
     body: 'Test Body',
   );
-
   final tPostModelList = [tPostModel];
-
   final tResponseData = [
     {'id': 1, 'userId': 1, 'title': 'Test Title', 'body': 'Test Body'},
   ];
 
   group('getPosts', () {
     test('should perform a GET request on /posts URL', () async {
-      // arrange
       when(() => mockDio.get(any())).thenAnswer(
         (_) async => Response(
           data: tResponseData,
@@ -41,16 +37,15 @@ void main() {
           requestOptions: RequestOptions(path: '${AppConstants.baseUrl}/posts'),
         ),
       );
-      // act
+
       await dataSource.getPosts();
-      // assert
+
       verify(() => mockDio.get('${AppConstants.baseUrl}/posts')).called(1);
     });
 
     test(
-      'should return List<PostModel> when the response code is 200 (success)',
+      'should return List<PostModel> when the response code is 200',
       () async {
-        // arrange
         when(() => mockDio.get(any())).thenAnswer(
           (_) async => Response(
             data: tResponseData,
@@ -60,17 +55,16 @@ void main() {
             ),
           ),
         );
-        // act
+
         final result = await dataSource.getPosts();
-        // assert
+
         expect(result, equals(tPostModelList));
       },
     );
 
     test(
-      'should throw a ServerException when the response code is 404 or other',
+      'should throw ServerException when the response code is 404',
       () async {
-        // arrange
         when(() => mockDio.get(any())).thenThrow(
           DioException(
             requestOptions: RequestOptions(
@@ -84,10 +78,8 @@ void main() {
             ),
           ),
         );
-        // act
-        final call = dataSource.getPosts;
-        // assert
-        expect(() => call(), throwsA(isA<ServerException>()));
+
+        expect(() => dataSource.getPosts(), throwsA(isA<ServerException>()));
       },
     );
   });

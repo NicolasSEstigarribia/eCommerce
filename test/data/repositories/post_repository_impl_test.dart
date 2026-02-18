@@ -29,48 +29,40 @@ void main() {
     );
   });
 
-  const tPostModel = Post(
-    id: 1,
-    userId: 1,
-    title: 'Test Title',
-    body: 'Test Body',
-  );
-
-  final tPostModels = [tPostModel];
+  const tPost = Post(id: 1, userId: 1, title: 'Test Title', body: 'Test Body');
+  final tPosts = [tPost];
   final tLikedIds = [1];
-  final tPosts = [tPostModel.copyWith(isLiked: true)];
+  final tPostsLiked = [tPost.copyWith(isLiked: true)];
 
   group('getPosts', () {
     test(
-      'should return posts with correct liked status when call to remote and local are successful',
+      'should return posts with correct liked status when remote and local succeed',
       () async {
-        // arrange
         when(
           () => mockRemoteDataSource.getPosts(),
-        ).thenAnswer((_) async => tPostModels);
+        ).thenAnswer((_) async => tPosts);
         when(
           () => mockLocalDataSource.getLikedPostIds(),
         ).thenAnswer((_) async => tLikedIds);
-        // act
+
         final result = await repository.getPosts();
-        // assert
+
         verify(() => mockRemoteDataSource.getPosts());
         verify(() => mockLocalDataSource.getLikedPostIds());
         expect(result.isRight(), isTrue);
-        expect(result.getOrElse(() => []), equals(tPosts));
+        expect(result.getOrElse(() => []), equals(tPostsLiked));
       },
     );
 
     test(
-      'should return ServerFailure when call to remote data source is unsuccessful',
+      'should return ServerFailure when remote data source throws ServerException',
       () async {
-        // arrange
         when(
           () => mockRemoteDataSource.getPosts(),
         ).thenThrow(const ServerException());
-        // act
-        final result = await repository.getPosts();
-        // assert
+
+        final result = await repository.getPosts(retries: 0);
+
         verify(() => mockRemoteDataSource.getPosts());
         expect(result, equals(const Left(ServerFailure('Server error'))));
       },
@@ -78,27 +70,28 @@ void main() {
   });
 
   group('toggleLike', () {
-    test('should call local data source to toggle like', () async {
-      // arrange
+    test('should return Right(null) when toggle like succeeds', () async {
       when(
         () => mockLocalDataSource.toggleLike(any()),
       ).thenAnswer((_) async => {});
-      // act
+
       final result = await repository.toggleLike(1);
-      // assert
+
       verify(() => mockLocalDataSource.toggleLike(1));
       expect(result, equals(const Right(null)));
     });
 
-    test('should return CacheFailure when toggle like fails', () async {
-      // arrange
-      when(
-        () => mockLocalDataSource.toggleLike(any()),
-      ).thenThrow(const CacheException());
-      // act
-      final result = await repository.toggleLike(1);
-      // assert
-      expect(result, equals(const Left(CacheFailure('Cache error'))));
-    });
+    test(
+      'should return CacheFailure when toggle like throws CacheException',
+      () async {
+        when(
+          () => mockLocalDataSource.toggleLike(any()),
+        ).thenThrow(const CacheException());
+
+        final result = await repository.toggleLike(1);
+
+        expect(result, equals(const Left(CacheFailure('Cache error'))));
+      },
+    );
   });
 }

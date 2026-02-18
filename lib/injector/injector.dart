@@ -1,4 +1,3 @@
-
 import 'package:dio/dio.dart';
 import 'package:ecommerce/data/barrel_data.dart';
 import 'package:ecommerce/domain/barrel_domain.dart';
@@ -9,7 +8,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 final sl = GetIt.instance;
 
 Future<void> init() async {
-  // External dependencies first (they have no internal deps)
   final sharedPreferences = await SharedPreferences.getInstance();
   sl.registerLazySingleton(() => sharedPreferences);
   sl.registerLazySingleton(
@@ -25,7 +23,6 @@ Future<void> init() async {
     ),
   );
 
-  // Data sources
   sl.registerLazySingleton<PostRemoteDataSource>(
     () => PostRemoteDataSourceImpl(dio: sl()),
   );
@@ -36,7 +33,6 @@ Future<void> init() async {
     () => CommentNativeDataSourceImpl(),
   );
 
-  // Repository
   sl.registerLazySingleton<PostRepository>(
     () => PostRepositoryImpl(
       remoteDataSource: sl(),
@@ -45,7 +41,6 @@ Future<void> init() async {
     ),
   );
 
-  // BLoCs — registered as factory so each BlocProvider gets a fresh instance
   sl.registerFactory(() => PostBloc(repository: sl()));
   sl.registerFactory(() => CommentBloc(repository: sl()));
 }
