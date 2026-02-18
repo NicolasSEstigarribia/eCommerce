@@ -2,7 +2,7 @@ import 'package:dio/dio.dart';
 import 'package:ecommerce/core/constants/app_constants.dart';
 import 'package:ecommerce/core/error/exceptions.dart';
 import 'package:ecommerce/data/datasources/post_remote_data_source_impl.dart';
-import 'package:ecommerce/domain/barrel_domain.dart';
+import 'package:ecommerce/data/models/post_model.dart';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
@@ -18,7 +18,7 @@ void main() {
     dataSource = PostRemoteDataSourceImpl(dio: mockDio);
   });
 
-  const tPostModel = Post(
+  const tPostModel = PostModel(
     id: 1,
     userId: 1,
     title: 'Test Title',
