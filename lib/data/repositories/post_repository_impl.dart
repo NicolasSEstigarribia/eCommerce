@@ -1,4 +1,3 @@
-
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:ecommerce/core/barrel_core.dart';
@@ -17,7 +16,7 @@ class PostRepositoryImpl implements PostRepository {
   });
 
   @override
-  Future<Either<Failure, List<Post>>> getPosts() async {
+  Future<Either<Failure, List<Post>>> getPosts({int retries = 2}) async {
     try {
       final posts = await remoteDataSource.getPosts();
       final likedIds = await localDataSource.getLikedPostIds();
@@ -26,8 +25,16 @@ class PostRepositoryImpl implements PostRepository {
           .toList();
       return Right(updatedPosts);
     } on ServerException catch (e) {
+      if (retries > 0) {
+        await Future.delayed(const Duration(seconds: 1));
+        return getPosts(retries: retries - 1);
+      }
       return Left(ServerFailure(e.message));
     } on DioException catch (e) {
+      if (retries > 0) {
+        await Future.delayed(const Duration(seconds: 1));
+        return getPosts(retries: retries - 1);
+      }
       return Left(ServerFailure(e.message ?? 'Network error'));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
