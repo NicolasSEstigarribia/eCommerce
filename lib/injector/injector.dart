@@ -1,13 +1,10 @@
-import 'package:get_it/get_it.dart';
+
 import 'package:dio/dio.dart';
+import 'package:ecommerce/data/barrel_data.dart';
+import 'package:ecommerce/domain/barrel_domain.dart';
+import 'package:ecommerce/presentation/bloc/barrel_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../data/datasources/local/post_local_data_source.dart';
-import '../data/datasources/native/comment_native_data_source.dart';
-import '../data/datasources/remote/post_remote_data_source.dart';
-import '../data/repositories/post_repository_impl.dart';
-import '../domain/repositories/post_repository.dart';
-import '../presentation/bloc/post/post_bloc.dart';
-import '../presentation/bloc/comment/comment_bloc.dart';
 
 final sl = GetIt.instance;
 
