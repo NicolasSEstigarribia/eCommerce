@@ -2,7 +2,6 @@ import 'package:ecommerce/core/barrel_core.dart';
 import 'package:ecommerce/domain/barrel_domain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 class PostLocalDataSourceImpl implements PostLocalDataSource {
   final SharedPreferences sharedPreferences;
 
