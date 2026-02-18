@@ -1,1 +1,3 @@
-# eCommerce
+# ecommerce
+
+A new Flutter project.
