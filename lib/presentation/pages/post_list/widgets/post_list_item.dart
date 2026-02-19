@@ -4,8 +4,14 @@ import '../../../../domain/entities/post.dart';
 class PostListItem extends StatelessWidget {
   final Post post;
   final VoidCallback onTap;
+  final VoidCallback onLikeTap;
 
-  const PostListItem({super.key, required this.post, required this.onTap});
+  const PostListItem({
+    super.key,
+    required this.post,
+    required this.onTap,
+    required this.onLikeTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -15,12 +21,15 @@ class PostListItem extends StatelessWidget {
         style: const TextStyle(fontWeight: FontWeight.bold),
       ),
       subtitle: Text(post.body, maxLines: 2, overflow: TextOverflow.ellipsis),
-      trailing: AnimatedSwitcher(
-        duration: const Duration(milliseconds: 200),
-        child: Icon(
-          post.isLiked ? Icons.favorite : Icons.favorite_border,
-          key: ValueKey(post.isLiked),
-          color: post.isLiked ? Colors.red : null,
+      trailing: GestureDetector(
+        onTap: onLikeTap,
+        child: AnimatedSwitcher(
+          duration: const Duration(milliseconds: 200),
+          child: Icon(
+            post.isLiked ? Icons.favorite : Icons.favorite_border,
+            key: ValueKey(post.isLiked),
+            color: post.isLiked ? Colors.red : null,
+          ),
         ),
       ),
       onTap: onTap,

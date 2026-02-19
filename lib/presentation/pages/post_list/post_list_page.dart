@@ -75,6 +75,8 @@ class _PostListPageState extends State<PostListPage> {
                       builder: (_) => PostDetailPage(post: post),
                     ),
                   ),
+                  onLikeTap: () =>
+                      context.read<PostBloc>().add(ToggleLikePost(post.id)),
                 );
               },
             ),
