@@ -98,7 +98,7 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: PostListItem(post: likedPost, onTap: () {}),
+            body: PostListItem(post: likedPost, onTap: () {}, onLikeTap: () {}),
           ),
         ),
       );
@@ -120,7 +120,11 @@ void main() {
       await tester.pumpWidget(
         MaterialApp(
           home: Scaffold(
-            body: PostListItem(post: unlikedPost, onTap: () {}),
+            body: PostListItem(
+              post: unlikedPost,
+              onTap: () {},
+              onLikeTap: () {},
+            ),
           ),
         ),
       );
