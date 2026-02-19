@@ -15,7 +15,7 @@ import UIKit
       (call: FlutterMethodCall, result: @escaping FlutterResult) -> Void in
       if call.method == "getComments" {
         guard let args = call.arguments as? [String: Any],
-              let postId = args["postId"] as? Int else {
+              let postId = (args["postId"] as? NSNumber)?.intValue else {
           result(FlutterError(code: "INVALID_ARGUMENT", message: "Post ID is missing", details: nil))
           return
         }
