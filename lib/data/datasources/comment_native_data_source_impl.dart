@@ -7,7 +7,7 @@ import 'package:flutter/services.dart';
 
 class CommentNativeDataSourceImpl implements CommentNativeDataSource {
   final MethodChannel _channel = const MethodChannel(
-    'com.example.ecommerce/comments',
+    AppConstants.commentsChannel,
   );
 
   @override
