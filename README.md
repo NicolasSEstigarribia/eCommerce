@@ -72,7 +72,7 @@ The `domain` layer has **zero** Flutter/external dependencies. The `data` layer 
 
 ```bash
 # 1. Clone the repository
-git clone <repo-url>
+git clone https://github.com/NicolasSEstigarribia/eCommerce.git
 cd ecommerce
 
 # 2. Install dependencies
